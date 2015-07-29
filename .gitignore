@@ -36,3 +36,6 @@ builds
 Build
 build
 Debug
+
+# Juce files
+JuceLibraryCode
