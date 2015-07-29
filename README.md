@@ -24,3 +24,15 @@ To update the submodules :
 $ git submodule init
 $ git submodule update
 ```
+
+To build introjucer for OSX (other plateform should be equivalent) :
+
+```
+$ xcodebuild -configuration Release -project "lib/JUCE/extras/Introjucer/Builds/MacOSX/The Introjucer.xcodeproj"
+```
+
+To generate solutions for OSX (other plateform should be equivalent) :
+```
+$ lib/JUCE/extras/Introjucer/Builds/MacOSX/build/Release/Introjucer.app/Contents/MacOS/Introjucer --resave CrdtExamples.jucer
+$ open Builds/MacOSX/CrdtExamples.xcodeproj
+```
