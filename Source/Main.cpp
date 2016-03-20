@@ -24,17 +24,44 @@ public:
     bool moreThanOneInstanceAllowed () override { return true; }
 
     //==============================================================================
+    void runUnitTests ()
+    {
+        juce::UnitTestRunner testRunner;
+        testRunner.setAssertOnFailure (false);
+        testRunner.runAllTests ();
+        for (auto i = 0; i < testRunner.getNumResults (); ++i)
+        {
+            auto logger = juce::Logger::getCurrentLogger ();
+            if (testRunner.getResult (i)->failures > 0)
+            {
+                auto failedTest = testRunner.getResult (i);
+                logger->outputDebugString (failedTest->unitTestName + " - " + failedTest->subcategoryName + " failed :");
+                auto failedMessages = failedTest->messages;
+                for (auto i = 0; i < failedMessages.size (); ++i)
+                {
+                    auto failedMessage = failedMessages[i];
+                    logger->outputDebugString ("->" + failedMessage);
+                }
+            }
+        }
+    }
+
     void initialise (const String& /*commandLine*/) override
     {
         // This method is where you should put your application's initialisation code..
-
+        auto logger = juce::Logger::getCurrentLogger ();
+        logger->writeToLog (getApplicationName () + " v" + getApplicationVersion ());
+        logger->writeToLog ("Unit tests started");
+        runUnitTests ();
+        logger->writeToLog ("Unit tests completed");
+        logger->writeToLog ("Main window started");
         mainWindow = new MainWindow{getApplicationName ()};
     }
 
     void shutdown () override
     {
         // Add your application's shutdown code here..
-
+        juce::Logger::getCurrentLogger ()->writeToLog ("Shutting down main window");
         mainWindow = nullptr; // (deletes our window)
     }
 
