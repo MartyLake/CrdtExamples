@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="AekyHQ" name="CrdtExamples" projectType="guiapp" version="0.0.1"
+              bundleIdentifier="audio.talbot.CrdtExamples" includeBinaryInAppConfig="1"
+              jucerVersion="3.2.0" defines="DONT_SET_USING_NAMESPACE=1">
+  <MAINGROUP id="hSxM8p" name="CrdtExamples">
+    <GROUP id="{726DEEA9-76EC-49C3-FB03-19085AE66A1D}" name="Source">
+      <FILE id="bFXbou" name="MainComponent.cpp" compile="1" resource="0"
+            file="Source/MainComponent.cpp"/>
+      <FILE id="DwvySM" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX" extraCompilerFlags="-Wall -Wextra -Wpedantic">
+      <CONFIGURATIONS>
+        <CONFIGURATION name="Debug" osxSDK="10.9 SDK" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="1" optimisation="1" targetName="CrdtExamples"/>
+        <CONFIGURATION name="Release" osxSDK="10.9 SDK" osxCompatibility="default" osxArchitecture="default"
+                       isDebug="0" optimisation="3" targetName="CrdtExamples" linkTimeOptimisation="1"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_core" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_video" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULES id="juce_audio_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_devices" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_formats" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_audio_processors" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_core" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_cryptography" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_data_structures" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_events" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_graphics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_basics" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_gui_extra" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_opengl" showAllCode="1" useLocalCopy="0"/>
+    <MODULES id="juce_video" showAllCode="1" useLocalCopy="0"/>
+  </MODULES>
+  <JUCEOPTIONS/>
+</JUCERPROJECT>

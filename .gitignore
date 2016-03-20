@@ -26,3 +26,16 @@
 *.exe
 *.out
 *.app
+
+# OSX Garbage
+.DS_Store
+
+# Build folders
+Builds
+builds
+Build
+build
+Debug
+
+# Juce files
+JuceLibraryCode
