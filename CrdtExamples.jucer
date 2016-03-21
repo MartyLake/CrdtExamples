@@ -5,6 +5,12 @@
               jucerVersion="3.2.0" defines="DONT_SET_USING_NAMESPACE=1">
   <MAINGROUP id="hSxM8p" name="CrdtExamples">
     <GROUP id="{726DEEA9-76EC-49C3-FB03-19085AE66A1D}" name="Source">
+      <GROUP id="{2B848378-E15F-48AF-BED3-9DAD520B03B0}" name="crdtsim">
+        <FILE id="Op8UVl" name="crdtsimNetwork.cpp" compile="1" resource="0"
+              file="Source/crdtsimNetwork.cpp"/>
+        <FILE id="bqM8dy" name="crdtsimNetwork.h" compile="0" resource="0"
+              file="Source/crdtsimNetwork.h"/>
+      </GROUP>
       <FILE id="bFXbou" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>
       <FILE id="DwvySM" name="Main.cpp" compile="1" resource="0" file="Source/Main.cpp"/>
