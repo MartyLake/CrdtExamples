@@ -39,6 +39,7 @@ bool Network::eraseNode (int identifier)
         return false;
     }
     nodes.erase (nodeToRemodeIt, std::end (nodes));
+    eraseAllConnexionsWithNode (identifier);
     return true;
 }
 bool Network::createConnexion (int sourceIdentifier, int destinationIdentifier)
@@ -83,6 +84,19 @@ bool Network::connexionExists (int sourceIdentifier, int destinationIdentifier)
     auto connexionToFind = Connexion{sourceIdentifier, destinationIdentifier};
     auto findResult = std::find (std::begin (connexions), std::end (connexions), connexionToFind);
     return findResult != std::end (connexions);
+}
+void Network::eraseAllConnexionsWithNode (int nodeIdentifier)
+{
+    auto sameSourcePredicate = [nodeIdentifier](const Connexion& c)
+    {
+        return c.getSourceNodeIdentifier () == nodeIdentifier;
+    };
+    connexions.erase (std::remove_if (std::begin (connexions), std::end (connexions), sameSourcePredicate), std::end (connexions));
+    auto sameDestinationPredicate = [nodeIdentifier](const Connexion& c)
+    {
+        return c.getDestinationNodeIdentifier () == nodeIdentifier;
+    };
+    connexions.erase (std::remove_if (std::begin (connexions), std::end (connexions), sameDestinationPredicate), std::end (connexions));
 }
 
 
@@ -201,6 +215,18 @@ public:
             expect (!network.connexionExists (nodeIdentifier3, nodeIdentifier1));
             network.eraseConnexion (nodeIdentifier1, nodeIdentifier2);
             expect (!network.connexionExists (nodeIdentifier1, nodeIdentifier2));
+        }
+        {
+            beginTest ("Network erases all connexions related to a node when it gets erased.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto nodeIdentifier2 = network.createNode ();
+            auto nodeIdentifier3 = network.createNode ();
+            network.createConnexion (nodeIdentifier1, nodeIdentifier2);
+            network.createConnexion (nodeIdentifier2, nodeIdentifier3);
+            network.eraseNode (nodeIdentifier2);
+            expect (!network.connexionExists (nodeIdentifier1, nodeIdentifier2));
+            expect (!network.connexionExists (nodeIdentifier2, nodeIdentifier3));
         }
     }
 } testTestNetwork;

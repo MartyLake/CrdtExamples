@@ -20,6 +20,8 @@ private:
     std::vector<Node> nodes;
     int lastNodeIdentifier{0};
     std::vector<Connexion> connexions;
+
+    void eraseAllConnexionsWithNode (int nodeIdentifier);
 };
 } //crdtsim
 #endif // NETWORK_H_INCLUDED
