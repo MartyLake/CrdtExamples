@@ -26,6 +26,21 @@ const Node* Network::getNode (int identifier) const
     }
     return &*foundNode;
 }
+bool Network::eraseNode (int identifier)
+{
+    auto sameIdentifierPredicate = [identifier](const Node& node)
+    {
+        return node.getIdentifier () == identifier;
+    };
+    auto nodeToRemodeIt = std::remove_if (std::begin (nodes), std::end (nodes), sameIdentifierPredicate);
+    if (nodeToRemodeIt == std::end (nodes))
+    {
+        juce::Logger::getCurrentLogger ()->outputDebugString ("Network::eraseNode(" + std::to_string (identifier) + ") can't find Node with specified Id.");
+        return false;
+    }
+    nodes.erase (nodeToRemodeIt, std::end (nodes));
+    return true;
+}
 
 
 class TestNetwork : public juce::UnitTest
@@ -60,6 +75,23 @@ public:
             auto nodeIdentifier1 = juce::UnitTest::getRandom ().nextInt ();
             auto retrievedNode = network.getNode (nodeIdentifier1);
             expect (retrievedNode == nullptr, "Empty network returned non empty node ptr when asked for Identifier(" + std::to_string (nodeIdentifier1) + ")");
+        }
+        {
+            beginTest ("Network can delete a node with the specified ID.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            expectEquals (network.size (), 1);
+            auto succesfullyDeleted = network.eraseNode (nodeIdentifier1);
+            expectEquals (network.size (), 0);
+            expect (succesfullyDeleted);
+        }
+        {
+            beginTest ("Network returns false when asked to delete a node with an invalid ID.");
+            Network network;
+            auto nodeIdentifier1 = juce::UnitTest::getRandom ().nextInt ();
+            expectEquals (network.size (), 0);
+            auto succesfullyDeleted = network.eraseNode (nodeIdentifier1);
+            expect (!succesfullyDeleted);
         }
     }
 } testTestNetwork;

@@ -10,6 +10,7 @@ public:
     int size () const;
     int createNode ();
     const Node* getNode (int identifier) const;
+    bool eraseNode (int identifier);
 
 private:
     std::vector<Node> nodes;
