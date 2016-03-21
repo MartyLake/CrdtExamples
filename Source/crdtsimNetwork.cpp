@@ -3,6 +3,8 @@
 
 namespace crdtsim
 {
+int Network::size () const { return 0; }
+
 class TestNetwork : public juce::UnitTest
 {
 public:
@@ -10,7 +12,9 @@ public:
     void runTest ()
     {
         {
-            beginTest ("Normal use");
+            beginTest ("Network is empty at creation.");
+            Network network;
+            expectEquals (network.size (), 0);
         }
     }
 } testTestNetwork;
