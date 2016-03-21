@@ -9,6 +9,7 @@ class Network
 public:
     int size () const;
     int createNode ();
+    const Node* getNode (int identifier) const;
 
 private:
     std::vector<Node> nodes;
