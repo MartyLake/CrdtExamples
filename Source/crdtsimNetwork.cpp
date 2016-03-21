@@ -78,6 +78,12 @@ bool Network::eraseConnexion (int sourceIdentifier, int destinationIdentifier)
     connexions.erase (findResult);
     return true;
 }
+bool Network::connexionExists (int sourceIdentifier, int destinationIdentifier)
+{
+    auto connexionToFind = Connexion{sourceIdentifier, destinationIdentifier};
+    auto findResult = std::find (std::begin (connexions), std::end (connexions), connexionToFind);
+    return findResult != std::end (connexions);
+}
 
 
 class TestNetwork : public juce::UnitTest
@@ -180,6 +186,21 @@ public:
             auto nodeIdentifier2 = network.createNode ();
             auto deletionResult = network.eraseConnexion (nodeIdentifier1, nodeIdentifier2);
             expect (!deletionResult);
+        }
+        {
+            beginTest ("Network can tell if a connexion exists or not.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto nodeIdentifier2 = network.createNode ();
+            auto nodeIdentifier3 = network.createNode ();
+            network.createConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (network.connexionExists (nodeIdentifier1, nodeIdentifier2));
+            expect (!network.connexionExists (nodeIdentifier1, nodeIdentifier3));
+            expect (!network.connexionExists (nodeIdentifier2, nodeIdentifier1));
+            expect (!network.connexionExists (nodeIdentifier2, nodeIdentifier3));
+            expect (!network.connexionExists (nodeIdentifier3, nodeIdentifier1));
+            network.eraseConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (!network.connexionExists (nodeIdentifier1, nodeIdentifier2));
         }
     }
 } testTestNetwork;
