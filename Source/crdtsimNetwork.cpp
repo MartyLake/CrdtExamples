@@ -41,7 +41,31 @@ bool Network::eraseNode (int identifier)
     nodes.erase (nodeToRemodeIt, std::end (nodes));
     return true;
 }
+bool Network::createConnexion (int sourceIdentifier, int destinationIdentifier)
+{
+    if (sourceIdentifier == destinationIdentifier)
+    {
+        juce::Logger::getCurrentLogger ()->outputDebugString ("Network::createConnexion(" + std::to_string (sourceIdentifier) + "," + std::to_string (destinationIdentifier) + ") can't create Connexion with sourceIdentifier equals destinationIdentifier.");
+        return false;
+    }
+    if (getNode (sourceIdentifier) == nullptr)
+    {
+        juce::Logger::getCurrentLogger ()->outputDebugString ("Network::createConnexion(" + std::to_string (sourceIdentifier) + "," + std::to_string (destinationIdentifier) + ") can't create Connexion with sourceIdentifier not refering to an existing node.");
+        return false;
+    }
+    if (getNode (destinationIdentifier) == nullptr)
+    {
+        juce::Logger::getCurrentLogger ()->outputDebugString ("Network::createConnexion(" + std::to_string (sourceIdentifier) + "," + std::to_string (destinationIdentifier) + ") can't create Connexion with destinationIdentifier not refering to an existing node.");
+        return false;
+    }
 
+    auto connexionToAdd = Connexion{sourceIdentifier, destinationIdentifier};
+    if (std::find (std::begin (connexions), std::end (connexions), connexionToAdd) == std::end (connexions))
+    {
+        connexions.push_back (connexionToAdd);
+    }
+    return true;
+}
 
 class TestNetwork : public juce::UnitTest
 {
@@ -92,6 +116,39 @@ public:
             expectEquals (network.size (), 0);
             auto succesfullyDeleted = network.eraseNode (nodeIdentifier1);
             expect (!succesfullyDeleted);
+        }
+        {
+            beginTest ("Network returns true when asked to create a connexion between two valid different identifier.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto nodeIdentifier2 = network.createNode ();
+            auto creationResult = network.createConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (creationResult);
+        }
+        {
+            beginTest ("Network returns false when asked to create a connexion with sourceIdentifier equals destinationIdentifier.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto creationResult = network.createConnexion (nodeIdentifier1, nodeIdentifier1);
+            expect (!creationResult);
+        }
+        {
+            beginTest ("Network returns false when asked to create a connexion with sourceIdentifier invalid.");
+            Network network;
+            auto sourceIdentifier = -10;
+            auto destinationIdentifier = network.createNode ();
+            expect (network.getNode (sourceIdentifier) == nullptr, "Bad initial conditions");
+            auto creationResult = network.createConnexion (sourceIdentifier, destinationIdentifier);
+            expect (!creationResult);
+        }
+        {
+            beginTest ("Network returns false when asked to create a connexion with destinationIdentifier invalid.");
+            Network network;
+            auto sourceIdentifier = network.createNode ();
+            auto destinationIdentifier = -10;
+            expect (network.getNode (destinationIdentifier) == nullptr, "Bad initial conditions");
+            auto creationResult = network.createConnexion (sourceIdentifier, destinationIdentifier);
+            expect (!creationResult);
         }
     }
 } testTestNetwork;
