@@ -6,10 +6,16 @@
   <MAINGROUP id="hSxM8p" name="CrdtExamples">
     <GROUP id="{726DEEA9-76EC-49C3-FB03-19085AE66A1D}" name="Source">
       <GROUP id="{2B848378-E15F-48AF-BED3-9DAD520B03B0}" name="crdtsim">
+        <FILE id="vHHS8a" name="crdtsimConnexion.cpp" compile="1" resource="0"
+              file="Source/crdtsimConnexion.cpp"/>
+        <FILE id="OjcgZr" name="crdtsimConnexion.h" compile="0" resource="0"
+              file="Source/crdtsimConnexion.h"/>
         <FILE id="Op8UVl" name="crdtsimNetwork.cpp" compile="1" resource="0"
               file="Source/crdtsimNetwork.cpp"/>
         <FILE id="bqM8dy" name="crdtsimNetwork.h" compile="0" resource="0"
               file="Source/crdtsimNetwork.h"/>
+        <FILE id="uUtJTh" name="crdtsimNode.cpp" compile="1" resource="0" file="Source/crdtsimNode.cpp"/>
+        <FILE id="ifcsQN" name="crdtsimNode.h" compile="0" resource="0" file="Source/crdtsimNode.h"/>
       </GROUP>
       <FILE id="bFXbou" name="MainComponent.cpp" compile="1" resource="0"
             file="Source/MainComponent.cpp"/>

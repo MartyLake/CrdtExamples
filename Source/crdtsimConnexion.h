@@ -1,0 +1,7 @@
+#ifndef CRDTSIMCONNEXION_H_INCLUDED
+#define CRDTSIMCONNEXION_H_INCLUDED
+namespace crdtsim
+{
+
+} //crdtsim
+#endif // CRDTSIMCONNEXION_H_INCLUDED
