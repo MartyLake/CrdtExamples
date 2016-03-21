@@ -66,6 +66,19 @@ bool Network::createConnexion (int sourceIdentifier, int destinationIdentifier)
     }
     return true;
 }
+bool Network::eraseConnexion (int sourceIdentifier, int destinationIdentifier)
+{
+    auto connexionToDelete = Connexion{sourceIdentifier, destinationIdentifier};
+    auto findResult = std::find (std::begin (connexions), std::end (connexions), connexionToDelete);
+    if (findResult == std::end (connexions))
+    {
+        juce::Logger::getCurrentLogger ()->outputDebugString ("Network::eraseConnexion(" + std::to_string (sourceIdentifier) + "," + std::to_string (destinationIdentifier) + ") can't find Connexion to delete.");
+        return false;
+    }
+    connexions.erase (findResult);
+    return true;
+}
+
 
 class TestNetwork : public juce::UnitTest
 {
@@ -149,6 +162,24 @@ public:
             expect (network.getNode (destinationIdentifier) == nullptr, "Bad initial conditions");
             auto creationResult = network.createConnexion (sourceIdentifier, destinationIdentifier);
             expect (!creationResult);
+        }
+        {
+            beginTest ("Network returns true when asked to delete a connexion that exist.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto nodeIdentifier2 = network.createNode ();
+            auto creationResult = network.createConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (creationResult, "Bad initial conditions");
+            auto deletionResult = network.eraseConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (deletionResult);
+        }
+        {
+            beginTest ("Network returns false when asked to delete a connexion that does not exist.");
+            Network network;
+            auto nodeIdentifier1 = network.createNode ();
+            auto nodeIdentifier2 = network.createNode ();
+            auto deletionResult = network.eraseConnexion (nodeIdentifier1, nodeIdentifier2);
+            expect (!deletionResult);
         }
     }
 } testTestNetwork;

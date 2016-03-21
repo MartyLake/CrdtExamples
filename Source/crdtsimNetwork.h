@@ -13,6 +13,7 @@ public:
     const Node* getNode (int identifier) const;
     bool eraseNode (int identifier);
     bool createConnexion (int sourceIdentifier, int destinationIdentifier);
+    bool eraseConnexion (int sourceIdentifier, int destinationIdentifier);
 
 private:
     std::vector<Node> nodes;
