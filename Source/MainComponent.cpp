@@ -10,6 +10,7 @@
 #define MAINCOMPONENT_H_INCLUDED
 
 #include "../JuceLibraryCode/JuceHeader.h"
+#include "crdtsimNetwork.h";
 
 //==============================================================================
 /*
@@ -24,6 +25,7 @@ public:
     {
         setSize (800, 600);
         setFramesPerSecond (60);
+        addAndMakeVisible (network.getComponent ());
     }
 
     ~MainContentComponent ()
@@ -47,16 +49,12 @@ public:
 
     void resized () override
     {
-        // This is called when the MainContentComponent is resized.
-        // If you add any child components, this is where you should
-        // update their positions.
+        network.getComponent ()->setBounds (getLocalBounds ());
     }
 
 
 private:
-    //==============================================================================
-
-    // Your private member variables go here...
+    crdtsim::Network network;
 
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)

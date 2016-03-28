@@ -4,6 +4,22 @@
 
 namespace crdtsim
 {
+class NetworkComponent : public juce::MultiDocumentPanel
+{
+public:
+    NetworkComponent (Network& network) : network (network){};
+    bool tryToCloseDocument (Component* component) override
+    {
+        //TODO dynamic cast of whatever will be given to it
+    }
+
+private:
+    Network& network;
+};
+Network::Network ()
+{
+    component.reset (new NetworkComponent (*this));
+}
 int Network::size () const { return nodes.size (); }
 int Network::createNode ()
 {
@@ -97,6 +113,11 @@ void Network::eraseAllConnexionsWithNode (int nodeIdentifier)
         return c.getDestinationNodeIdentifier () == nodeIdentifier;
     };
     connexions.erase (std::remove_if (std::begin (connexions), std::end (connexions), sameDestinationPredicate), std::end (connexions));
+}
+
+juce::Component* Network::getComponent ()
+{
+    return component.get ();
 }
 
 

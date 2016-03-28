@@ -3,11 +3,16 @@
 #include <vector>
 #include "crdtsimNode.h"
 #include "crdtsimConnexion.h"
+namespace juce
+{
+class Component;
+}
 namespace crdtsim
 {
 class Network
 {
 public:
+    Network ();
     int size () const;
     int createNode ();
     const Node* getNode (int identifier) const;
@@ -15,11 +20,13 @@ public:
     bool createConnexion (int sourceIdentifier, int destinationIdentifier);
     bool eraseConnexion (int sourceIdentifier, int destinationIdentifier);
     bool connexionExists (int sourceIdentifier, int destinationIdentifier);
+    juce::Component* getComponent ();
 
 private:
     std::vector<Node> nodes;
     int lastNodeIdentifier{0};
     std::vector<Connexion> connexions;
+    std::unique_ptr<juce::Component> component;
 
     void eraseAllConnexionsWithNode (int nodeIdentifier);
 };
