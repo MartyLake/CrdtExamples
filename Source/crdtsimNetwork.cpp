@@ -19,6 +19,17 @@ private:
 Network::Network ()
 {
     component.reset (new NetworkComponent (*this));
+
+    //TODO remove me, test code
+    {
+        createNode ();
+        createNode ();
+        createNode ();
+        createNode ();
+        createConnexion (0, 1);
+        createConnexion (2, 3);
+        createConnexion (3, 1);
+    }
 }
 int Network::size () const { return nodes.size (); }
 int Network::createNode ()
@@ -26,7 +37,9 @@ int Network::createNode ()
     auto newNode = Node{lastNodeIdentifier++};
     nodes.push_back (newNode);
     jassert (size () > 0);
-    return nodes.back ().getIdentifier ();
+    auto newNodeIdentifier = nodes.back ().getIdentifier ();
+    component->addAndMakeVisible (getNode (newNodeIdentifier)->getComponent ());
+    return newNodeIdentifier;
 }
 const Node* Network::getNode (int identifier) const
 {
