@@ -41,6 +41,7 @@ bool Network::eraseNode (int identifier)
         return false;
     }
     nodes.erase (nodeToRemodeIt, std::end (nodes));
+    valueTree.removeChild (valueTree.getChildWithName (getNodeIdentifier (identifier)), nullptr);
     eraseAllConnexionsWithNode (identifier);
     return true;
 }
@@ -244,6 +245,14 @@ public:
             auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
             network.createNode ();
             expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
+        }
+        {
+            beginTest ("Network deletes a child to ValueTree when deleting a node.");
+            Network network;
+            auto nodeId = network.createNode ();
+            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            network.eraseNode (nodeId);
+            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
         }
     }
 } testTestNetwork;
