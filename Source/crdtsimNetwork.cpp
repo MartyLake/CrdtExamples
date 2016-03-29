@@ -10,7 +10,7 @@ int Network::createNode ()
     auto newNode = Node{lastNodeIdentifier++};
     nodes.push_back (newNode);
     jassert (size () > 0);
-    valueTree.getOrCreateChildWithName (getNodeIdentifier (nodes.back ().getIdentifier ()), nullptr);
+    getNodesValueTree ().getOrCreateChildWithName (getNodeIdentifier (nodes.back ().getIdentifier ()), nullptr);
     jassert (valueTree.getNumChildren () > 0);
     return nodes.back ().getIdentifier ();
 }
@@ -41,7 +41,7 @@ bool Network::eraseNode (int identifier)
         return false;
     }
     nodes.erase (nodeToRemodeIt, std::end (nodes));
-    valueTree.removeChild (valueTree.getChildWithName (getNodeIdentifier (identifier)), nullptr);
+    getNodesValueTree ().removeChild (getNodesValueTree ().getChildWithName (getNodeIdentifier (identifier)), nullptr);
     eraseAllConnexionsWithNode (identifier);
     return true;
 }
@@ -67,7 +67,7 @@ bool Network::createConnexion (int sourceIdentifier, int destinationIdentifier)
     if (std::find (std::begin (connexions), std::end (connexions), connexionToAdd) == std::end (connexions))
     {
         connexions.push_back (connexionToAdd);
-        valueTree.getOrCreateChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier), nullptr);
+        getConnexionsValueTree ().getOrCreateChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier), nullptr);
     }
     return true;
 }
@@ -81,7 +81,7 @@ bool Network::eraseConnexion (int sourceIdentifier, int destinationIdentifier)
         return false;
     }
     connexions.erase (findResult);
-    valueTree.removeChild (valueTree.getChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier)), nullptr);
+    getConnexionsValueTree ().removeChild (getConnexionsValueTree ().getChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier)), nullptr);
     return true;
 }
 bool Network::connexionExists (int sourceIdentifier, int destinationIdentifier)
@@ -103,9 +103,13 @@ void Network::eraseAllConnexionsWithNode (int nodeIdentifier)
     };
     connexions.erase (std::remove_if (std::begin (connexions), std::end (connexions), sameDestinationPredicate), std::end (connexions));
 }
-juce::ValueTree& Network::getValueTree ()
+juce::ValueTree Network::getNodesValueTree ()
 {
-    return valueTree;
+    return valueTree.getOrCreateChildWithName ("NODES", nullptr);
+}
+juce::ValueTree Network::getConnexionsValueTree ()
+{
+    return valueTree.getOrCreateChildWithName ("CONNEXIONS", nullptr);
 }
 juce::Identifier Network::getNodeIdentifier (int nodeIdentifier)
 {
@@ -248,26 +252,26 @@ public:
         {
             beginTest ("Network creates a child to ValueTree when creating a node.");
             Network network;
-            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            auto initialValueTreeSize = network.getNodesValueTree ().getNumChildren ();
             network.createNode ();
-            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
+            expectEquals (network.getNodesValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
         }
         {
             beginTest ("Network deletes a child to ValueTree when deleting a node.");
             Network network;
             auto nodeId = network.createNode ();
-            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            auto initialValueTreeSize = network.getNodesValueTree ().getNumChildren ();
             network.eraseNode (nodeId);
-            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
+            expectEquals (network.getNodesValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
         }
         {
             beginTest ("Network creates a child to ValueTree when creating a connexion.");
             Network network;
             auto nodeId1 = network.createNode ();
             auto nodeId2 = network.createNode ();
-            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            auto initialValueTreeSize = network.getConnexionsValueTree ().getNumChildren ();
             network.createConnexion (nodeId1, nodeId2);
-            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
+            expectEquals (network.getConnexionsValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
         }
         {
             beginTest ("Network deletes a child to ValueTree when deleting a connexion.");
@@ -275,9 +279,9 @@ public:
             auto nodeId1 = network.createNode ();
             auto nodeId2 = network.createNode ();
             network.createConnexion (nodeId1, nodeId2);
-            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            auto initialValueTreeSize = network.getConnexionsValueTree ().getNumChildren ();
             network.eraseConnexion (nodeId1, nodeId2);
-            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
+            expectEquals (network.getConnexionsValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
         }
     }
 } testTestNetwork;

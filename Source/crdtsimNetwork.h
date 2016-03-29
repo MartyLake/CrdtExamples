@@ -17,7 +17,8 @@ public:
     bool createConnexion (int sourceIdentifier, int destinationIdentifier);
     bool eraseConnexion (int sourceIdentifier, int destinationIdentifier);
     bool connexionExists (int sourceIdentifier, int destinationIdentifier);
-    juce::ValueTree& getValueTree ();
+    juce::ValueTree getNodesValueTree ();
+    juce::ValueTree getConnexionsValueTree ();
 
 private:
     std::vector<Node> nodes;
