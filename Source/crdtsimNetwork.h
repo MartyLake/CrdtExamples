@@ -27,6 +27,7 @@ private:
     void eraseAllConnexionsWithNode (int nodeIdentifier);
     juce::ValueTree valueTree;
     static juce::Identifier getNodeIdentifier (int nodeIdentifier);
+    static juce::Identifier getConnexionIdentifier (int sourceIdentifier, int destinationIdentifier);
 };
 } //crdtsim
 #endif // NETWORK_H_INCLUDED

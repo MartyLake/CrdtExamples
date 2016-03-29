@@ -67,6 +67,7 @@ bool Network::createConnexion (int sourceIdentifier, int destinationIdentifier)
     if (std::find (std::begin (connexions), std::end (connexions), connexionToAdd) == std::end (connexions))
     {
         connexions.push_back (connexionToAdd);
+        valueTree.getOrCreateChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier), nullptr);
     }
     return true;
 }
@@ -108,6 +109,10 @@ juce::ValueTree& Network::getValueTree ()
 juce::Identifier Network::getNodeIdentifier (int nodeIdentifier)
 {
     return juce::String ("NODE#" + std::to_string (nodeIdentifier));
+}
+juce::Identifier Network::getConnexionIdentifier (int sourceIdentifier, int destinationIdentifier)
+{
+    return juce::String ("CONNEXION#" + std::to_string (sourceIdentifier) + "->" + std::to_string (destinationIdentifier));
 }
 
 
@@ -253,6 +258,15 @@ public:
             auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
             network.eraseNode (nodeId);
             expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
+        }
+        {
+            beginTest ("Network creates a child to ValueTree when creating a connexion.");
+            Network network;
+            auto nodeId1 = network.createNode ();
+            auto nodeId2 = network.createNode ();
+            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            network.createConnexion (nodeId1, nodeId2);
+            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
         }
     }
 } testTestNetwork;
