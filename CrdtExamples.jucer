@@ -14,6 +14,10 @@
               file="Source/crdtsimNetwork.cpp"/>
         <FILE id="bqM8dy" name="crdtsimNetwork.h" compile="0" resource="0"
               file="Source/crdtsimNetwork.h"/>
+        <FILE id="rPl5Gc" name="crdtsimNetworkComponent.cpp" compile="1" resource="0"
+              file="Source/crdtsimNetworkComponent.cpp"/>
+        <FILE id="NnhleM" name="crdtsimNetworkComponent.h" compile="0" resource="0"
+              file="Source/crdtsimNetworkComponent.h"/>
         <FILE id="uUtJTh" name="crdtsimNode.cpp" compile="1" resource="0" file="Source/crdtsimNode.cpp"/>
         <FILE id="ifcsQN" name="crdtsimNode.h" compile="0" resource="0" file="Source/crdtsimNode.h"/>
       </GROUP>
