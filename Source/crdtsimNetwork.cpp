@@ -1,9 +1,9 @@
 #include "crdtsimNetwork.h"
-#include "JuceHeader.h"
 #include <algorithm>
 
 namespace crdtsim
 {
+Network::Network () : valueTree ("RootNetwork") {}
 int Network::size () const { return nodes.size (); }
 int Network::createNode ()
 {
@@ -97,6 +97,10 @@ void Network::eraseAllConnexionsWithNode (int nodeIdentifier)
         return c.getDestinationNodeIdentifier () == nodeIdentifier;
     };
     connexions.erase (std::remove_if (std::begin (connexions), std::end (connexions), sameDestinationPredicate), std::end (connexions));
+}
+juce::ValueTree& Network::getValueTree ()
+{
+    return valueTree;
 }
 
 
