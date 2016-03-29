@@ -10,6 +10,8 @@ int Network::createNode ()
     auto newNode = Node{lastNodeIdentifier++};
     nodes.push_back (newNode);
     jassert (size () > 0);
+    valueTree.getOrCreateChildWithName (getNodeIdentifier (nodes.back ().getIdentifier ()), nullptr);
+    jassert (valueTree.getNumChildren () > 0);
     return nodes.back ().getIdentifier ();
 }
 const Node* Network::getNode (int identifier) const
@@ -101,6 +103,10 @@ void Network::eraseAllConnexionsWithNode (int nodeIdentifier)
 juce::ValueTree& Network::getValueTree ()
 {
     return valueTree;
+}
+juce::Identifier Network::getNodeIdentifier (int nodeIdentifier)
+{
+    return juce::String ("NODE#" + std::to_string (nodeIdentifier));
 }
 
 
@@ -231,6 +237,13 @@ public:
             network.eraseNode (nodeIdentifier2);
             expect (!network.connexionExists (nodeIdentifier1, nodeIdentifier2));
             expect (!network.connexionExists (nodeIdentifier2, nodeIdentifier3));
+        }
+        {
+            beginTest ("Network creates a child to ValueTree when creating a node.");
+            Network network;
+            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            network.createNode ();
+            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
         }
     }
 } testTestNetwork;
