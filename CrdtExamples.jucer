@@ -26,9 +26,10 @@
     <XCODE_MAC targetFolder="Builds/MacOSX" extraCompilerFlags="-Wall -Wextra -Wpedantic">
       <CONFIGURATIONS>
         <CONFIGURATION name="Debug" osxSDK="10.9 SDK" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="1" optimisation="1" targetName="CrdtExamples"/>
+                       isDebug="1" optimisation="1" targetName="CrdtExamples" cppLanguageStandard="c++11"/>
         <CONFIGURATION name="Release" osxSDK="10.9 SDK" osxCompatibility="default" osxArchitecture="default"
-                       isDebug="0" optimisation="3" targetName="CrdtExamples" linkTimeOptimisation="1"/>
+                       isDebug="0" optimisation="3" targetName="CrdtExamples" linkTimeOptimisation="1"
+                       cppLanguageStandard="c++11"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
         <MODULEPATH id="juce_core" path="lib/JUCE/modules"/>
