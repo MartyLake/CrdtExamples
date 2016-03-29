@@ -11,6 +11,7 @@
 
 #include "../JuceLibraryCode/JuceHeader.h"
 #include "crdtsimNetworkComponent.h"
+#include "crdtsimNetwork.h"
 
 //==============================================================================
 /*
@@ -23,6 +24,11 @@ public:
     //==============================================================================
     MainContentComponent ()
     {
+        //MODEL
+        networkComponent.setNodesValueTree (network.getNodesValueTree ());
+        networkComponent.setConnexionsValueTree (network.getConnexionsValueTree ());
+        network.createNode ();
+        //VIEW
         addAndMakeVisible (&networkComponent);
         setSize (800, 600);
         setFramesPerSecond (60);
@@ -55,6 +61,7 @@ public:
 
 private:
     crdtsim::NetworkComponent networkComponent;
+    crdtsim::Network network;
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR (MainContentComponent)
 };
 
