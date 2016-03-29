@@ -81,6 +81,7 @@ bool Network::eraseConnexion (int sourceIdentifier, int destinationIdentifier)
         return false;
     }
     connexions.erase (findResult);
+    valueTree.removeChild (valueTree.getChildWithName (getConnexionIdentifier (sourceIdentifier, destinationIdentifier)), nullptr);
     return true;
 }
 bool Network::connexionExists (int sourceIdentifier, int destinationIdentifier)
@@ -267,6 +268,16 @@ public:
             auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
             network.createConnexion (nodeId1, nodeId2);
             expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize + 1, "Network hasn't taken care of its tree.");
+        }
+        {
+            beginTest ("Network deletes a child to ValueTree when deleting a connexion.");
+            Network network;
+            auto nodeId1 = network.createNode ();
+            auto nodeId2 = network.createNode ();
+            network.createConnexion (nodeId1, nodeId2);
+            auto initialValueTreeSize = network.getValueTree ().getNumChildren ();
+            network.eraseConnexion (nodeId1, nodeId2);
+            expectEquals (network.getValueTree ().getNumChildren (), initialValueTreeSize - 1, "Network hasn't taken care of its tree.");
         }
     }
 } testTestNetwork;
