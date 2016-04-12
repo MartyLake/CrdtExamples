@@ -41,6 +41,7 @@ void NetworkComponent::valueTreeChildAdded (ValueTree& parentTree, ValueTree& ch
         auto identifier = childWhichHasBeenAdded.getType ();
         auto newNote = new juce::TextButton{};
         newNote->setButtonText (identifier.toString ());
+        newNote->setSize (100, 100);
         addDocument (newNote, Colours::lightblue.withAlpha (0.6f), true);
     }
     else if (parentTree == connexionsValueTree)
