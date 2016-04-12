@@ -17,6 +17,7 @@ public:
     void valueTreeChildRemoved (ValueTree& parentTree, ValueTree& childWhichHasBeenRemoved, int indexFromWhichChildWasRemoved) override;
     void valueTreeChildOrderChanged (ValueTree& parentTreeWhoseChildrenHaveMoved, int oldIndex, int newIndex) override;
     void valueTreeParentChanged (ValueTree& treeWhoseParentHasChanged) override;
+    MultiDocumentPanelWindow* createNewDocumentWindow () override;
 
 private:
     juce::ValueTree nodesValueTree, connexionsValueTree;

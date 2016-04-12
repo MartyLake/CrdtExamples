@@ -76,3 +76,7 @@ void NetworkComponent::valueTreeParentChanged (ValueTree& treeWhoseParentHasChan
 {
     //TODO
 }
+MultiDocumentPanelWindow* NetworkComponent::createNewDocumentWindow ()
+{
+    return new NodesMultiDocumentPanelWindow (getBackgroundColour ());
+}
