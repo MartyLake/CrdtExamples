@@ -2,6 +2,15 @@
 
 using namespace crdtsim;
 
+class NodesMultiDocumentPanelWindow : public MultiDocumentPanelWindow
+{
+public:
+    NodesMultiDocumentPanelWindow (Colour backgroundColour) : MultiDocumentPanelWindow (backgroundColour)
+    {
+        setTitleBarButtonsRequired (DocumentWindow::closeButton, true);
+    }
+};
+
 NetworkComponent::NetworkComponent ()
 {
     useFullscreenWhenOneDocument (false);
